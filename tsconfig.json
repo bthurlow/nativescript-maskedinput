@@ -1,0 +1,22 @@
+{
+  "compilerOptions":{
+    "target":"es5",
+    "module":"commonjs",
+    "removeComments":true,
+    "experimentalDecorators":true,
+    "sourceMap":true
+  },
+  "files":[
+    "demo/node_modules/tns-core-modules/tns-core-modules.d.ts",
+    "node_modules/ios.d.ts",
+    "node_modules/android17.d.ts",
+    "maskedinput.android.ts",
+    "maskedinput.ios.ts",
+    "maskedinput.d.ts"
+  ],
+  "compileOnSave":false,
+  "exclude":[
+    "./platforms/**/*.ts",
+    "./node_modules/*.ts"
+  ]
+}

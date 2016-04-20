@@ -1,0 +1,19 @@
+{
+  "nativescript": {
+    "id": "org.nativescript.demo",
+    "tns-android": {
+      "version": "1.7.1"
+    }
+  },
+  "dependencies": {
+    "nativescript-maskedinput": "file:..",
+    "tns-core-modules": "1.7.1"
+  },
+  "license": "MIT",
+  "description": "Demo App for nativescript-maskedinput.",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bthurlow/nativescript-maskedinput/demo"
+  }
+}

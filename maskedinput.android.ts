@@ -10,7 +10,6 @@ export class MaskedInput extends common.MaskedInput{
   private selectionBefore:number;
   private editTextChange:boolean;
   private newIndex:number;
-  // private initialText:boolean;
   private bypassEvent:boolean = false;
 
   private _android: android.widget.EditText;
@@ -155,39 +154,5 @@ export class MaskedInput extends common.MaskedInput{
           }
       }
     }));
-  }
-
-  set text(value:string){
-    this.buildRegEx(); //Ensure regex is built and ready!
-    let s:string = value.toString(); //Force String Type
-    let sbIdx:number = 0;
-
-    // console.log("set text");
-    // console.log("value: " + s);
-    // console.log("value.length: " + s.length);
-    // console.log("Pre stringBuilder: " + this.stringBuilder);
-
-    for(let i=0; i < s.length; i++){
-      // console.log("regex test:" + this.testCharAtIndex(s.charAt(i),sbIdx));
-      if(this.testCharAtIndex(s.charAt(i),sbIdx)){
-        //This works for FormattedText
-        this.replacePlaceholder(sbIdx,s.charAt(i));
-        sbIdx++;
-      }
-      else{
-        //Try to convert RawText
-        // console.log("next placeholder index: " + this.findIndex());
-        let nextIdx = this.findIndex();
-        // console.log("regex test:" + this.testCharAtIndex(s.charAt(i),nextIdx));
-        if(this.testCharAtIndex(s.charAt(i),nextIdx)){
-          this.replacePlaceholder(nextIdx,s.charAt(i));
-          sbIdx = nextIdx + 1;
-        }
-      }
-      // console.log("sbIdx: " + sbIdx.toString());
-    }
-    // console.log("Post stringBuilder: " + this.stringBuilder);
-
-    this.initialText = true;
   }
 }

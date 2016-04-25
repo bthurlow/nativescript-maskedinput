@@ -339,7 +339,7 @@ export class MaskedInput extends textView.TextView //view.View
     //Get Next Char Type
     let idx:number = this.findIndex();
     let char:string = this.getNextCharType(idx);
-    console.log("setInputTypeBasedOnMask");
+    // console.log("setInputTypeBasedOnMask");
     // console.log("Mask: " + this.mask);
     // console.log("Next Char Type: " + char);
     // console.log("Next Char Idx: " + idx);
@@ -355,25 +355,4 @@ export class MaskedInput extends textView.TextView //view.View
         this.keyboardType = ""; //Set to Text
     }
   }
-
-  // public _onTextPropertyChanged(data: dependencyObservable.PropertyChangeData)
-  // {
-  //   console.log("_onTextPropertyChanged");
-  //   console.log(data.property.name);
-  //   console.log(data.newValue);
-  // }
-  // private propertyChangedEvent(eventData:observable.PropertyChangeData){
-  //   console.log("propertyChangedEvent");
-  //   console.log(eventData.eventName);
-  //   console.log(eventData.propertyName);
-  //   console.log(eventData.value);
-  //
-  //   if(eventData.propertyName === "text"){
-  //     if(this.android){
-  //       this.android.setSelection(this.findIndex());
-  //     }
-  //   }
-  //
-  //   // console.log(eventData.value.length);
-  // }
 }

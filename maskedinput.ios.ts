@@ -14,9 +14,7 @@ class MaskedInputDelegateImpl extends NSObject implements UITextViewDelegate {
     public static ObjCProtocols = [UITextViewDelegate];
 
     private nextIdx:number;
-    // private prevIdx:number;
     private prevString:string;
-    // private editTextChange:boolean;
 
     private _owner: WeakRef<MaskedInput>;
     public static initWithOwner(owner: WeakRef<MaskedInput>): MaskedInputDelegateImpl {
@@ -60,10 +58,8 @@ class MaskedInputDelegateImpl extends NSObject implements UITextViewDelegate {
       if (owner) {
         // console.log("setCursor");
         // console.log("position idx: " + owner.findIndex());
-        // this.prevIdx = this.nextIdx;
         this.nextIdx = owner.findIndex();
         textView.selectedRange = NSMakeRange(this.nextIdx,0);
-
       }
     }
 
@@ -81,7 +77,6 @@ class MaskedInputDelegateImpl extends NSObject implements UITextViewDelegate {
             // owner.style._updateTextDecoration();
             // owner.style._updateTextTransform();
 
-            // owner.bypassEvent = true;
             // console.log(owner.FormattedText);
             owner.ios.text = owner.FormattedText;
         }
@@ -104,20 +99,8 @@ class MaskedInputDelegateImpl extends NSObject implements UITextViewDelegate {
           if(owner.testCharAtIndex(newChar,range.location)){
             owner.replacePlaceholder(range.location,newChar);
             // console.log("new builder:" + owner.stringBuilder);
-            // textView.text = owner.stringBuilder;
-            // this.editTextChange = true;
           }
           else{
-            // this.editTextChange = false;
-            // if(newChar === owner.placeholder || newChar === ""){
-            //   console.log("previous index: " + owner.findPreviousPlaceholder(this.nextIdx));
-            //   owner.replacePlaceholder(owner.findPreviousPlaceholder(this.nextIdx),owner.placeholder);
-            //   textView.text = owner.stringBuilder;
-            // }
-            // else{
-              // console.log("prevString: " + this.prevString);
-              // textView.text = this.prevString;
-            // }
             return false;
           }
         }
@@ -137,13 +120,7 @@ class MaskedInputDelegateImpl extends NSObject implements UITextViewDelegate {
           let s:string = textView.text.toString();
           let newChar:string = s.charAt(this.nextIdx);
 
-          // if(this.editTextChange){
-          //   this.editTextChange = false;
-            textView.text = owner.stringBuilder;
-          // }
-          // else{
-          //   textView.text = this.prevString;
-          // }
+          textView.text = owner.stringBuilder;
 
           //Update cursor postion
           this.setCursor(textView);
@@ -168,13 +145,6 @@ class MaskedInputDelegateImpl extends NSObject implements UITextViewDelegate {
 }
 
 export class MaskedInput extends common.MaskedInput{
-  // public textBefore:string;
-  // private selectionBefore:number;
-  // private editTextChange:boolean;
-  // private newIndex:number;
-  // private initialText:boolean = false;
-  // public bypassEvent:boolean = false;
-
   private _ios: UITextView;
   private _delegate: MaskedInputDelegateImpl;
 
@@ -196,7 +166,6 @@ export class MaskedInput extends common.MaskedInput{
     // console.log("initialText: " + this.initialText);
     if(this.initialText){
       // console.log("FormattedText: " + this.FormattedText);
-      // this.ios.text = this.FormattedText;
       this._hideHint();
       this.initialText = false;
 
@@ -221,36 +190,36 @@ export class MaskedInput extends common.MaskedInput{
   }
 
   public _onEditablePropertyChanged(data: PropertyChangeData) {
-        this._ios.editable = data.newValue;
-    }
+      this._ios.editable = data.newValue;
+  }
 
-    public _onHintPropertyChanged(data: PropertyChangeData) {
-        this._refreshHintState(data.newValue, this.text);
-    }
+  public _onHintPropertyChanged(data: PropertyChangeData) {
+      this._refreshHintState(data.newValue, this.text);
+  }
 
-    public _onTextPropertyChanged(data: PropertyChangeData) {
-        // super._onTextPropertyChanged(data);
-        this._refreshHintState(this.hint, data.newValue);
-    }
+  public _onTextPropertyChanged(data: PropertyChangeData) {
+      // super._onTextPropertyChanged(data);
+      this._refreshHintState(this.hint, data.newValue);
+  }
 
-    public _refreshHintState(hint: string, text: string) {
-        if (hint && !text) {
-            this._showHint(hint);
-        }
-        else {
-            this._hideHint();
-        }
-    }
+  public _refreshHintState(hint: string, text: string) {
+      if (hint && !text) {
+          this._showHint(hint);
+      }
+      else {
+          this._hideHint();
+      }
+  }
 
   public _showHint(hint: string) {
-        this.ios.textColor = this.ios.textColor ? this.ios.textColor.colorWithAlphaComponent(0.22) : UIColor.blackColor().colorWithAlphaComponent(0.22);
-        this.ios.text = isNullOrUndefined(hint) ? "" : hint + "";
-        (<any>this.ios).isShowingHint = true;
-    }
+      this.ios.textColor = this.ios.textColor ? this.ios.textColor.colorWithAlphaComponent(0.22) : UIColor.blackColor().colorWithAlphaComponent(0.22);
+      this.ios.text = isNullOrUndefined(hint) ? "" : hint + "";
+      (<any>this.ios).isShowingHint = true;
+  }
 
-    public _hideHint() {
-        this.ios.textColor = this.color ? this.color.ios : null;
-        this.ios.text = isNullOrUndefined(this.FormattedText) ? "" : this.FormattedText + "";
-        (<any>this.ios).isShowingHint = false;
-    }
+  public _hideHint() {
+      this.ios.textColor = this.color ? this.color.ios : null;
+      this.ios.text = isNullOrUndefined(this.FormattedText) ? "" : this.FormattedText + "";
+      (<any>this.ios).isShowingHint = false;
+  }
 }

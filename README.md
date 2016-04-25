@@ -41,13 +41,11 @@ Use MaskedInput by adding the following XML.
 
 ### Properties
 
-#### mask
-
-mask [string]
+#### mask [string]
 
 Get or Set the mask used for input
 
-##### mask options
+#### mask options
 
 - 9 is the same as RegEx [0-9]
 - a is the same as RegEx [A-Za-z]
@@ -66,31 +64,28 @@ Get or Set the mask used for input
 * [  ]
 * { }
 
-#### regEx
+#### valid [boolean]
 
-regEx [string]
+Returns true or false if the input text matches the mask.
 
-Gets the regex that was created from the mask so that you can perform your own validation.
-
-#### placeholder
-
-placeholder [string]
+#### placeholder [string]
 
 Gets or Sets the placeholder.
 
 Default: _
 
-#### RawText
-RawText [string]
+#### RawText [string]
 
 Gets only the text that matches the RegEx pattern from the mask.
 
 You cannot validate the RawText property.  It will fail.
 
-#### FormattedText
-
-FormattedText [string]
+#### FormattedText [string]
 
 Gets the Full text including any seperators as specified in the mask.
 
 Use the FormattedText property when you want to validate the input against the regEx property.
+
+#### regEx [string]
+
+Gets the regex that was created from the mask so that you can perform your own validation.

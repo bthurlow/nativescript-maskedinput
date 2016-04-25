@@ -1,10 +1,8 @@
-var dialogs = require("ui/dialogs");
-var createViewModel = require("./main-view-model").createViewModel;
-var _page;
+var dialogs = require("ui/dialogs"),
+_page;
 
 function onNavigatingTo(args) {
     _page = args.object;
-    //page.bindingContext = createViewModel();
 
     //Fix android auto focus.
     if(_page.android){
@@ -28,13 +26,6 @@ exports.testInputClick = function(args){
 
 exports.validateClick = function(args){
   var mi = _page.getViewById("maskedInput");
-  // var pattern = new RegExp(mi.regEx,"i");
-  //
-  // if(pattern.test(mi.FormattedText)){
-  //   dialogs.alert({title:"Test Result",message:"Valid",okButtonText:"OK"});
-  // }else{
-  //   dialogs.alert({title:"Test Result",message:"Not Valid",okButtonText:"OK"});
-  // }
 
   if(mi.valid){
     dialogs.alert({title:"Test Result",message:"Valid",okButtonText:"OK"});

@@ -10,7 +10,7 @@ export class MaskedInput extends common.MaskedInput{
   private selectionBefore:number;
   private editTextChange:boolean;
   private newIndex:number;
-  private initialText:boolean;
+  // private initialText:boolean;
   private bypassEvent:boolean = false;
 
   private _android: android.widget.EditText;

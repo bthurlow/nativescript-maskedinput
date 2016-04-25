@@ -4,7 +4,7 @@ declare module "nativescript-maskedinput"
   import editableTextBase = require("ui/editable-text-base");
   import dependencyObservable = require("ui/core/dependency-observable");
 
-  export class MaskedInput extends textView.TextView //view.View
+  export class MaskedInput extends textView.TextView
   {
     constructor(options?: editableTextBase.Options);
 
@@ -15,5 +15,6 @@ declare module "nativescript-maskedinput"
     RawText:string;
     FormattedText:string;
     text:string;
+    valid:boolean;
   }
 }

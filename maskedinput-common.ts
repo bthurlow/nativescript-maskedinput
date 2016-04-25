@@ -17,6 +17,7 @@ export class MaskedInput extends textView.TextView //view.View
   private _regexOptionalArr: string[] = [];
   private _placeholder: string = "_"; //Default Placeholder
   private _regexReady: boolean = false;
+  protected initialText:boolean = false;
 
   constructor(options?: editableTextBase.Options)
   {
@@ -109,7 +110,37 @@ export class MaskedInput extends textView.TextView //view.View
   }
 
   set text(value:string){
-    //Abstract
+    this.buildRegEx(); //Ensure regex is built and ready!
+    let s:string = value.toString(); //Force String Type
+    let sbIdx:number = 0;
+
+    // console.log("set text");
+    // console.log("value: " + s);
+    // console.log("value.length: " + s.length);
+    // console.log("Pre stringBuilder: " + this.stringBuilder);
+
+    for(let i=0; i < s.length; i++){
+      // console.log("regex test:" + this.testCharAtIndex(s.charAt(i),sbIdx));
+      if(this.testCharAtIndex(s.charAt(i),sbIdx)){
+        //This works for FormattedText
+        this.replacePlaceholder(sbIdx,s.charAt(i));
+        sbIdx++;
+      }
+      else{
+        //Try to convert RawText
+        // console.log("next placeholder index: " + this.findIndex());
+        let nextIdx = this.findIndex();
+        // console.log("regex test:" + this.testCharAtIndex(s.charAt(i),nextIdx));
+        if(this.testCharAtIndex(s.charAt(i),nextIdx)){
+          this.replacePlaceholder(nextIdx,s.charAt(i));
+          sbIdx = nextIdx + 1;
+        }
+      }
+      // console.log("sbIdx: " + sbIdx.toString());
+    }
+    // console.log("Post stringBuilder: " + this.stringBuilder);
+
+    this.initialText = true;
   }
   get text():string{
     let s:string = "";
@@ -117,6 +148,17 @@ export class MaskedInput extends textView.TextView //view.View
     s = this.FormattedText;
 
     return s;
+  }
+
+  get valid():boolean{
+    let r:boolean = false;
+    let pattern = new RegExp(this.regEx,"i");
+
+    if(pattern.test(this.FormattedText)){
+      r = true;
+    }
+
+    return r;
   }
 
   protected buildRegEx():void
@@ -232,7 +274,7 @@ export class MaskedInput extends textView.TextView //view.View
     this._regexReady = true;
   }
 
-  protected findIndex():number
+  public findIndex():number
   {
     let idx:number;
 
@@ -251,8 +293,11 @@ export class MaskedInput extends textView.TextView //view.View
     return "";
   }
 
-  protected testCharAtIndex(c:string,idx:number):boolean{
+  public testCharAtIndex(c:string,idx:number):boolean{
     let valid:boolean = false;
+
+    // //iOS
+    // if(c === this._placeholder)
 
     if(idx <= this._regexArr.length-1){
       let rx = new RegExp(this._regexArr[idx],"g");
@@ -262,7 +307,12 @@ export class MaskedInput extends textView.TextView //view.View
     return valid;
   }
 
-  protected replacePlaceholder(idx:number,c:string):void{
+  public findPreviousPlaceholder(currentIndex:number):number{
+    let previousIdx:number = this._sbIsPlaceholder.lastIndexOf(true,currentIndex-1);
+    return previousIdx;
+  }
+
+  public replacePlaceholder(idx:number,c:string):void{
     if(idx <= this._stringBuilder.length-1){
       if(c === this._placeholder){
         if(this._sbIsPlaceholder[idx]){
@@ -285,11 +335,11 @@ export class MaskedInput extends textView.TextView //view.View
     }
   }
 
-  protected setInputTypeBasedOnMask():void{
+  public setInputTypeBasedOnMask():void{
     //Get Next Char Type
     let idx:number = this.findIndex();
     let char:string = this.getNextCharType(idx);
-    // console.log("setInputTypeBasedOnMask");
+    console.log("setInputTypeBasedOnMask");
     // console.log("Mask: " + this.mask);
     // console.log("Next Char Type: " + char);
     // console.log("Next Char Idx: " + idx);

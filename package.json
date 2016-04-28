@@ -1,6 +1,6 @@
 {
   "name": "nativescript-maskedinput",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A {N} masked input plugin for iOS and Android",
   "main": "maskedinput.js",
   "nativescript": {

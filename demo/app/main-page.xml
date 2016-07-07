@@ -7,12 +7,12 @@
       <TextView hint="Change Focus" />
       <Button text="Get Input" tap="testInputClick" />
       <Button text="Validate Input" tap="validateClick" />
-      <!--Label text="Set Text Mask Test" />
+      <Label text="Set Text Mask Test" />
       <mi:MaskedInput mask="1-999-999-9999? x999" hint="1-555-555-5555" text="5551231212" cssStyle="color:#000;" borderColor="green" borderWidth="2" />
       <mi:MaskedInput mask="1-999-999-9999? x999" hint="1-555-555-5555" text="1-555-123-1212 x123" cssStyle="color:#000;" />
       <Label text="Test Binding" />
       <TextField text="{{ phone }}" />
-      <mi:MaskedInput mask="1-999-999-9999? x999" hint="1-555-555-5555" text="{{ phone }}" /-->
+      <mi:MaskedInput mask="1-999-999-9999? x999" hint="1-555-555-5555" text="{{ phone }}" />
     </StackLayout>
   </ScrollView>
 </Page>

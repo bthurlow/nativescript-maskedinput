@@ -86,8 +86,6 @@ You cannot validate the RawText property.  It will fail.
 
 Gets the Full text including any seperators as specified in the mask.
 
-Use the FormattedText property when you want to validate the input against the regEx property.
-
 #### regEx [string]
 
 Gets the regex that was created from the mask so that you can perform your own validation.

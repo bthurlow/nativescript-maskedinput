@@ -1,13 +1,18 @@
-<Page xmlns="http://www.nativescript.org/tns.xsd" xmlns:mi="nativescript-maskedinput" loaded="onNavigatingTo">
-  <StackLayout id="DemoLayout">
-    <Label text="MaskedInput Demo" class="title" textWrap="true"/>
-    <Label text="Mask: 1-999-999-9999? x999" />
-    <mi:MaskedInput id="maskedInput" mask="1-999-999-9999? x999" hint="1-555-555-5555" placeholder="#" cssStyle="color:#000;" />
-    <TextView hint="Change Focus" />
-    <Button text="Get Input" tap="testInputClick" />
-    <Button text="Validate Input" tap="validateClick" />
-    <Label text="Set Text Mask Test" />
-    <mi:MaskedInput mask="1-999-999-9999? x999" hint="1-555-555-5555" text="5551231212" cssStyle="color:#000;" borderColor="green" borderWidth="2" />
-    <mi:MaskedInput mask="1-999-999-9999? x999" hint="1-555-555-5555" text="1-555-123-1212 x123" cssStyle="color:#000;" />
-  </StackLayout>
+<Page xmlns="http://www.nativescript.org/tns.xsd" xmlns:mi="nativescript-maskedinput" loaded="pageLoaded">
+  <ScrollView>
+    <StackLayout id="DemoLayout">
+      <Label text="MaskedInput Demo" class="title" textWrap="true"/>
+      <Label text="Mask: 1-999-999-9999? x999" />
+      <mi:MaskedInput id="maskedInput" mask="1-999-999-9999? x999" hint="1-555-555-5555" placeholder="#" cssStyle="color:#000;" />
+      <TextView hint="Change Focus" />
+      <Button text="Get Input" tap="testInputClick" />
+      <Button text="Validate Input" tap="validateClick" />
+      <!--Label text="Set Text Mask Test" />
+      <mi:MaskedInput mask="1-999-999-9999? x999" hint="1-555-555-5555" text="5551231212" cssStyle="color:#000;" borderColor="green" borderWidth="2" />
+      <mi:MaskedInput mask="1-999-999-9999? x999" hint="1-555-555-5555" text="1-555-123-1212 x123" cssStyle="color:#000;" />
+      <Label text="Test Binding" />
+      <TextField text="{{ phone }}" />
+      <mi:MaskedInput mask="1-999-999-9999? x999" hint="1-555-555-5555" text="{{ phone }}" /-->
+    </StackLayout>
+  </ScrollView>
 </Page>

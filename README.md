@@ -68,6 +68,8 @@ Get or Set the mask used for input
 
 Returns true or false if the input text matches the mask.
 
+Use the ```FormattedText``` property or the ```text``` property to validate the input.
+
 #### placeholder [string]
 
 Gets or Sets the placeholder.

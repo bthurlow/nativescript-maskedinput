@@ -68,6 +68,8 @@ Get or Set the mask used for input
 
 Returns true or false if the input text matches the mask.
 
+Use the ```FormattedText``` property or the ```text``` property to validate the input.
+
 #### placeholder [string]
 
 Gets or Sets the placeholder.
@@ -83,8 +85,6 @@ You cannot validate the RawText property.  It will fail.
 #### FormattedText [string]
 
 Gets the Full text including any seperators as specified in the mask.
-
-Use the FormattedText property when you want to validate the input against the regEx property.
 
 #### regEx [string]
 

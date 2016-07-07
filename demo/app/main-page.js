@@ -1,20 +1,30 @@
 var dialogs = require("ui/dialogs"),
-_page;
+observableModule = require("data/observable"),
+_page,
+data;
 
-function onNavigatingTo(args) {
-    _page = args.object;
+// function onNavigatingTo(args) {
+//
+// }
+// exports.onNavigatingTo = onNavigatingTo;
 
-    //Fix android auto focus.
-    if(_page.android){
-      var layout = _page.getViewById("DemoLayout").android;
-      var firstInputField = _page.getViewById("maskedInput").android;
+function pageLoaded(args) {
+  _page = args.object;
+  data = new observableModule.Observable();
+  data.set("phone","555-555-5555");
+  _page.bindingContext = data;
 
-      layout.setFocusableInTouchMode(true);
-      layout.setFocusable(true);
-      firstInputField.clearFocus();
-    }
+  //Fix android auto focus.
+  if(_page.android){
+    var layout = _page.getViewById("DemoLayout").android;
+    var firstInputField = _page.getViewById("maskedInput").android;
+
+    layout.setFocusableInTouchMode(true);
+    layout.setFocusable(true);
+    firstInputField.clearFocus();
+  }
 }
-exports.onNavigatingTo = onNavigatingTo;
+exports.pageLoaded = pageLoaded;
 
 exports.testInputClick = function(args){
   var mi = _page.getViewById("maskedInput");

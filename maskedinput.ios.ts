@@ -67,8 +67,13 @@ class MaskedInputDelegateImpl extends NSObject implements UITextViewDelegate {
       // console.log("textViewDidEndEditing");
         let owner = this._owner.get();
         if (owner) {
+          console.log(owner.updateTextTrigger);
             if (owner.updateTextTrigger === UpdateTextTrigger.focusLost) {
-                owner._onPropertyChangedFromNative(TextBase.textProperty, textView.text);
+              // console.log("focusLost");
+                owner._onPropertyChangedFromNative(TextBase.textProperty, owner.FormattedText);
+            }
+            else if (owner.updateTextTrigger === UpdateTextTrigger.textChanged) {
+                owner._onPropertyChangedFromNative(TextBase.textProperty, owner.FormattedText);
             }
 
             owner.dismissSoftInput();
@@ -149,6 +154,7 @@ export class MaskedInput extends common.MaskedInput{
   private _delegate: MaskedInputDelegateImpl;
 
   constructor(){
+    // console.log("constructor");
     super();
 
     this._ios = new UITextView();
@@ -156,6 +162,7 @@ export class MaskedInput extends common.MaskedInput{
         this._ios.font = UIFont.systemFontOfSize(12);
     }
     this._delegate = MaskedInputDelegateImpl.initWithOwner(new WeakRef(this));
+    // this.initialText = true;
   }
 
   public onLoaded() {
@@ -164,15 +171,17 @@ export class MaskedInput extends common.MaskedInput{
     this._ios.delegate = this._delegate;
 
     // console.log("initialText: " + this.initialText);
-    if(this.initialText){
-      // console.log("FormattedText: " + this.FormattedText);
-      this._hideHint();
-      this.initialText = false;
-
-      if (this.updateTextTrigger === UpdateTextTrigger.textChanged) {
-          this._onPropertyChangedFromNative(TextBase.textProperty, this.FormattedText);
-      }
-    }
+    // if(this.initialText){
+    //   console.log("FormattedText: " + this.FormattedText);
+    //   console.log("text: " + this.text);
+    //   this._hideHint();
+    //   this.initialText = false;
+    //
+    //   console.log(this.updateTextTrigger);
+    //   // if (this.updateTextTrigger === UpdateTextTrigger.textChanged) {
+    //   //     this._onPropertyChangedFromNative(TextBase.textProperty, this.FormattedText);
+    //   // }
+    // }
 
     this.buildRegEx();
 
@@ -199,7 +208,37 @@ export class MaskedInput extends common.MaskedInput{
 
   public _onTextPropertyChanged(data: PropertyChangeData) {
       // super._onTextPropertyChanged(data);
-      this._refreshHintState(this.hint, data.newValue);
+      // this._refreshHintState(this.hint, data.newValue);
+      // console.log("_onTextPropertyChanged");
+      // console.log("data.newValue: " + data.newValue); //Initial Val
+      // console.log("data.oldValue: " + data.oldValue);
+
+      let s:string = data.newValue.toString();
+      let sbIdx: number = 0;
+
+      if(s.length > 0){
+        for (let i = 0; i < s.length; i++) {
+            // console.log("regex test:" + owner.testCharAtIndex(s1.charAt(i),sbIdx));
+            if (this.testCharAtIndex(s.charAt(i), sbIdx)) {
+                //This works for FormattedText
+                this.replacePlaceholder(sbIdx, s.charAt(i));
+                sbIdx++;
+            }
+            else {
+                //Try to convert RawText
+                // console.log("next placeholder index: " + owner.findIndex());
+                let nextIdx = this.findIndex();
+                // console.log("regex test:" + owner.testCharAtIndex(s1.charAt(i),nextIdx));
+                if (this.testCharAtIndex(s.charAt(i), nextIdx)) {
+                    this.replacePlaceholder(nextIdx, s.charAt(i));
+                    sbIdx = nextIdx + 1;
+                }
+            }
+            // console.log("sbIdx: " + sbIdx.toString());
+        }
+
+        this._onPropertyChangedFromNative(TextBase.textProperty, this.FormattedText);
+      }
   }
 
   public _refreshHintState(hint: string, text: string) {

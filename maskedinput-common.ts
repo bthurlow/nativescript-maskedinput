@@ -18,6 +18,7 @@ export class MaskedInput extends textView.TextView //view.View
   private _placeholder: string = "_"; //Default Placeholder
   private _regexReady: boolean = false;
   protected initialText:boolean = false;
+  protected bypassEvent:boolean = false;
 
   constructor(options?: editableTextBase.Options)
   {
@@ -110,44 +111,14 @@ export class MaskedInput extends textView.TextView //view.View
   }
 
   set text(value:string){
-    this.buildRegEx(); //Ensure regex is built and ready!
     let s:string = value.toString(); //Force String Type
-    let sbIdx:number = 0;
-
-    // console.log("set text");
-    // console.log("value: " + s);
-    // console.log("value.length: " + s.length);
-    // console.log("Pre stringBuilder: " + this.stringBuilder);
-
-    for(let i=0; i < s.length; i++){
-      // console.log("regex test:" + this.testCharAtIndex(s.charAt(i),sbIdx));
-      if(this.testCharAtIndex(s.charAt(i),sbIdx)){
-        //This works for FormattedText
-        this.replacePlaceholder(sbIdx,s.charAt(i));
-        sbIdx++;
-      }
-      else{
-        //Try to convert RawText
-        // console.log("next placeholder index: " + this.findIndex());
-        let nextIdx = this.findIndex();
-        // console.log("regex test:" + this.testCharAtIndex(s.charAt(i),nextIdx));
-        if(this.testCharAtIndex(s.charAt(i),nextIdx)){
-          this.replacePlaceholder(nextIdx,s.charAt(i));
-          sbIdx = nextIdx + 1;
-        }
-      }
-      // console.log("sbIdx: " + sbIdx.toString());
-    }
-    // console.log("Post stringBuilder: " + this.stringBuilder);
-
-    this.initialText = true;
+    // console.log("set text()");
+    // console.log("s value: " + s);
+    this._setValue(textBase.TextBase.textProperty, s);
   }
   get text():string{
-    let s:string = "";
-
-    s = this.FormattedText;
-
-    return s;
+    // console.log("get text()");
+    return this.FormattedText;
   }
 
   get valid():boolean{
@@ -276,12 +247,15 @@ export class MaskedInput extends textView.TextView //view.View
 
   public findIndex():number
   {
+    // console.log("findIndex");
     let idx:number;
 
     idx = this._stringBuilder.indexOf(this._placeholder);
+    // console.log("Pre-Index: " + idx.toString());
     if(idx < 0){
       idx = this._stringBuilder.length;
     }
+    // console.log("Post-Index: " + idx.toString());
     return idx;
   }
 
